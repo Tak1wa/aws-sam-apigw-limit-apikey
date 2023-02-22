@@ -25,7 +25,7 @@ Resources:
         DynamoDBTTL:
           Type: DynamoDB
           Properties:
-            Stream: arn:aws:dynamodb:ap-northeast-1:550669467088:table/ApiKeyTable/stream/2023-02-21T19:30:43.786
+            Stream: arn:aws:dynamodb:ap-northeast-1:123456789012:table/ApiKeyTable/stream/2023-02-21T19:30:43.786
             BatchSize: 10
             Enabled: true
             FilterCriteria:
