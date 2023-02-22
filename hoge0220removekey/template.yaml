@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  hoge0220removekey
+Transform:
+- AWS::Serverless-2016-10-31
+
+Resources:
+  helloFromLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/hoge0220removekey/
+      Handler: hoge0220removekey::hoge0220removekey.Function::FunctionHandler
+      Runtime: dotnet6
+      Architectures:
+        - x86_64
+      MemorySize: 256
+      Timeout: 100
+      Description: A Lambda function that returns a static string.
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: ApiKeyTable
+        - AmazonAPIGatewayAdministrator
+      Events:
+        DynamoDBTTL:
+          Type: DynamoDB
+          Properties:
+            Stream: arn:aws:dynamodb:ap-northeast-1:550669467088:table/ApiKeyTable/stream/2023-02-21T19:30:43.786
+            BatchSize: 10
+            Enabled: true
+            FilterCriteria:
+              Filters:
+                - Pattern: "{\"userIdentity\":{\"type\":[\"Service\"],\"principalId\":[\"dynamodb.amazonaws.com\"]}}"
+            StartingPosition: LATEST
+      
